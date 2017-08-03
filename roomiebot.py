@@ -7,7 +7,6 @@ from slackclient import SlackClient
 
 # starterbot's ID as an environment variable
 BOT_ID = os.environ.get("BOT_ID")
-print BOT_ID
 
 # constants
 AT_BOT = "<@" + BOT_ID + ">"
@@ -80,8 +79,6 @@ def handle_command(command, channel):
         for path in pathdesc:
             response_message += path
             response_message += '\n'
-        print response_message
-
         response_message += ("For more information please visit us at <https://roomieapp.herokuapp.com/?searchFrom=" + from_room + "&searchTo=" + to_room + ">")
     slack_client.api_call("chat.postMessage", channel=channel,
                           text=response_message, as_user=True)
