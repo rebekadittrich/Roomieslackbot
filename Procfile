@@ -1,1 +1,1 @@
-web: python roomiebot.py
+worker: python roomiebot.py
