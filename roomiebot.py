@@ -16,7 +16,6 @@ TO_COMMAND = "to"
 # instantiate Slack & Twilio clients
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 
-print "test"
 
 def handle_command(command, channel):
     """
