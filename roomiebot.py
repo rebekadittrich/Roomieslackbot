@@ -29,7 +29,7 @@ def handle_command(command, channel):
             number = len(command.split())
             if number >= 2:
                 rooms = ['Spline', 'Cat\'s cradle', 'Hypercube', 'Fractal', 'Icosidodecahedron', 'Eames', 'Regina', 'Lovelace',
-                         'Turing', 'Bob', 'Erdos', 'ContentArranger', 'EagleTransition', 'UserCell', 'AbstractElement',
+                         'Turing', 'Erdos', 'ContentArranger', 'EagleTransition', 'UserCell', 'AbstractElement',
                          'Please', 'Workshop', 'Geographer', 'Asteroid b-612', 'Elephant', 'Lamplighter', 'Rose', 'Baobab',
                          'Cinema', 'Totoro', 'Sangaku', 'Donkey Kong', 'Fuji', 'Stretch']
 
