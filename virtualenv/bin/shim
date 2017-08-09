@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-export NODE_PATH=/Users/rebekadiettrich/Documents/Roomie-slackbot/virtualenv/lib/node_modules
-export NPM_CONFIG_PREFIX=/Users/rebekadiettrich/Documents/Roomie-slackbot/virtualenv
-export npm_config_prefix=/Users/rebekadiettrich/Documents/Roomie-slackbot/virtualenv
-exec /Users/rebekadiettrich/Documents/Roomie-slackbot/virtualenv/bin/node "$@"
