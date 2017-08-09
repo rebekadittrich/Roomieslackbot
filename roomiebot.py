@@ -36,6 +36,7 @@ def handle_command(command, channel):
                 ]
                 rooms_without_bob = [room for room in rooms if room != 'Bob']
 
+
                 first_word = ""
                 second_word = ""
                 first_room = ""
@@ -46,7 +47,49 @@ def handle_command(command, channel):
                 command = str(command).lower()
                 command = re.sub("[^\w]", " ", command).split()
 
+
+                short_rooms = ['spl', 'cat', 'hyp', 'fra', 'ico', 'eam', 'reg',
+                    'lov', 'tur', 'erd', 'con', 'eag', 'use', 'abs', 'ple', 'wor',
+                    'geo', 'ast', 'ele', 'lam', 'ros', 'bao', 'cin', 'tot', 'san',
+                    'don', 'fuj', 'str', 'bob'
+                ]
+                short_command = map(lambda x: x[:3].lower(), command)
+
+                first_room, second_room = None, None
+                for short_room in short_rooms:
+                    if short_room in short_command:
+                        first_room = rooms[short_rooms.index(short_room)]
+                        break
+                if first_room is not None:
+                    short_rooms.remove(first_room[:3].lower())
+                    rooms.remove(first_room)
+                    for short_room in short_rooms:
+                        if short_room in short_command:
+                            second_room = rooms[short_rooms.index(short_room)]
+                            break
+
+                if first_room is not None and second_room is not None:
+                    response = requests.get("https://roomieapp.herokuapp.com/direction/?searchFrom=" + from_room + "&searchTo=" + to_room)
+
+                    desc = response.json()
+                    pathdesc = desc["path"]
+
+                    response_message = "The route from " + from_room + " to " + to_room + "\n"
+
+                    for path in pathdesc:
+                        response_message += path
+                        response_message += '\n'
+                    response_message += ("For more information please visit us at <https://roomieapp.herokuapp.com/?searchFrom=" + from_room + "&searchTo=" + to_room + ">")
+                else:
+                    response_message = "I didn't quite get that. Can you make your message simpler?"
+
+                return response_message
+
+
                 bob_found = 'bob' in command
+                if bob_found:
+                    command.remove('bob')
+
                 min_lemming = 1000000
                 for word in command:
                     for room in rooms_without_bob if bob_found else rooms:
@@ -91,7 +134,7 @@ def handle_command(command, channel):
             else:
                 response_message = "Where do you stand and where do you want to go?"
     except Exception as e:
-        print e
+        pass
     slack_client.api_call("chat.postMessage", channel=channel,
                           text=response_message, as_user=True)
 
