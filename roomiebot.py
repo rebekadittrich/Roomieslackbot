@@ -90,8 +90,8 @@ def handle_command(command, channel):
                 response_message += ("For more information please visit us at <https://roomieapp.herokuapp.com/?searchFrom=" + from_room + "&searchTo=" + to_room + ">")
             else:
                 response_message = "Where do you stand and where do you want to go?"
-    except Exception:
-        pass
+    except Exception as e:
+        print e
     slack_client.api_call("chat.postMessage", channel=channel,
                           text=response_message, as_user=True)
 
