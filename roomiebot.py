@@ -28,11 +28,13 @@ def handle_command(command, channel):
         if command.startswith(FROM_COMMAND):
             number = len(command.split())
             if number >= 2:
-                rooms = ['Spline', 'Cat\'s cradle', 'Hypercube', 'Fractal', 'Icosidodecahedron', 'Eames', 'Regina', 'Lovelace',
-                         'Turing', 'Erdos', 'ContentArranger', 'EagleTransition', 'UserCell', 'AbstractElement',
-                         'Please', 'Workshop', 'Geographer', 'Asteroid b-612', 'Elephant', 'Lamplighter', 'Rose', 'Baobab',
-                         'Cinema', 'Totoro', 'Sangaku', 'Donkey Kong', 'Fuji', 'Stretch']
-
+                rooms = [
+                    'Spline', 'Cat\'s cradle', 'Hypercube', 'Fractal', 'Icosidodecahedron', 'Eames', 'Regina', 'Lovelace',
+                    'Turing', 'Erdos', 'ContentArranger', 'EagleTransition', 'UserCell', 'AbstractElement',
+                    'Please', 'Workshop', 'Geographer', 'Asteroid b-612', 'Elephant', 'Lamplighter', 'Rose', 'Baobab',
+                    'Cinema', 'Totoro', 'Sangaku', 'Donkey Kong', 'Fuji', 'Stretch', 'Bob'
+                ]
+                rooms_without_bob = [room for room in rooms if room != 'Bob']
 
                 first_word = ""
                 second_word = ""
@@ -40,29 +42,31 @@ def handle_command(command, channel):
                 second_room = ""
                 from_room = ""
                 to_room = ""
-                command1 = str(command)
-                command = str(command)
+                command1 = str(command).lower()
+                command = str(command).lower()
                 command = re.sub("[^\w]", " ", command).split()
 
+                bob_found = 'bob' in command
                 min_lemming = 1000000
                 for word in command:
-                    for room in rooms:
+                    for room in rooms_without_bob if bob_found else rooms:
                         if Levenshtein.distance(word, room) < min_lemming:
                             min_lemming = Levenshtein.distance(word, room)
-                            first_word = word
-                            first_room = room
+                            first_word, first_room = word, room
 
                 indexfrom = command1.index(first_word)
                 rooms.remove(first_room)
                 command.remove(first_word)
 
-                min_lemming2 = 1000000
-                for word in command:
-                    for room in rooms:
-                        if Levenshtein.distance(word, room) < min_lemming2:
-                            min_lemming2 = Levenshtein.distance(word, room)
-                            second_word = word
-                            second_room = room
+                if not bob_found:
+                    min_lemming2 = 1000000
+                    for word in command:
+                        for room in rooms:
+                            if Levenshtein.distance(word, room) < min_lemming2:
+                                min_lemming2 = Levenshtein.distance(word, room)
+                                second_word, second_room = word, room
+                else:
+                    second_word, second_room = 'bob', 'Bob'
 
                 indexto = command1.index(second_word)
 
